@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Overflow</title>
+<style>
+  @page { size: letter; margin: 0; }
+  :root { --ink:#15193a; --indigo:#2b2f7a; --teal:#1f7a8c; --mint:#8fd3d1; --paper:#f6f5f0; --muted:#5b6078; --accent:#ff7a59; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink); font-family: -apple-system, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .page { width: 8.5in; height: 11in; position: relative; overflow: hidden; page-break-after: always; background: var(--paper); }
+  .page:last-child { page-break-after: auto; }
+  h1,h2,h3 { margin:0; letter-spacing:-0.01em; }
+  /* ---------- page 1 ---------- */
+  .hero { height: 5.2in; background: url(hero.jpg) center/cover no-repeat; position: relative; }
+  .hero::after { content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(21,25,58,0) 55%, rgba(21,25,58,.92) 100%); }
+  .hero .title { position:absolute; left:.6in; bottom:.42in; color:#fff; z-index:1; }
+  .hero .title .kicker { font-size: 11pt; letter-spacing:.18em; text-transform: uppercase; color: var(--mint); font-weight:600; }
+  .hero .title h1 { font-size: 54pt; font-weight: 800; line-height: 1; margin-top: 4pt; }
+  .hero .title p { font-size: 15pt; margin: 8pt 0 0; opacity:.95; font-weight: 400; }
+  .price { position:absolute; right:.55in; top:.5in; z-index:2; width: 1.45in; height: 1.45in; border-radius: 50%; background: var(--accent); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; transform: rotate(8deg); box-shadow: 0 6pt 18pt rgba(0,0,0,.25); }
+  .price .amt { font-size: 30pt; font-weight: 800; line-height:1; }
+  .price .amt sup { font-size: 14pt; vertical-align: top; }
+  .price small { font-size: 8pt; text-transform: uppercase; letter-spacing: .12em; margin-top: 4pt; font-weight:600; }
+  .body { padding: .42in .6in 0; }
+  .lede { font-size: 12.5pt; line-height: 1.5; color: var(--ink); max-width: 7in; }
+  .lede b { color: var(--indigo); }
+  .cards { display:grid; grid-template-columns: repeat(3, 1fr); gap: .22in; margin-top: .32in; }
+  .card { background:#fff; border-radius: 10pt; padding: .2in .22in; border: 1px solid #e4e3dc; box-shadow: 0 1pt 3pt rgba(0,0,0,.05); }
+  .card .ico { width: 30pt; height: 30pt; border-radius: 8pt; background: linear-gradient(135deg, var(--indigo), var(--teal)); color:#fff; display:flex; align-items:center; justify-content:center; font-size: 15pt; font-weight:700; margin-bottom: 9pt; }
+  .card h3 { font-size: 11.5pt; color: var(--indigo); margin-bottom: 4pt; }
+  .card p { font-size: 9.6pt; line-height: 1.45; margin:0; color: var(--muted); }
+  .strip { position:absolute; left:0; right:0; bottom:0; height: .95in; background: var(--ink); color:#fff; display:flex; align-items:center; justify-content:space-between; padding: 0 .6in; }
+  .strip .big { font-size: 12.5pt; font-weight: 600; }
+  .strip .big span { color: var(--mint); }
+  .strip .small { font-size: 9pt; opacity:.8; text-align:right; line-height:1.4; }
+  /* ---------- page 2 ---------- */
+  .p2 { padding: .38in .6in 0; display:flex; flex-direction:column; height: 11in; }
+  .p2 h2 { font-size: 20pt; font-weight: 800; color: var(--indigo); }
+  .p2 .sub { font-size: 10pt; color: var(--muted); margin: 3pt 0 10pt; }
+  .flow { background:#fff; border:1px solid #e4e3dc; border-radius: 12pt; padding: .16in .22in; }
+  .flow table { width:100%; border-collapse: collapse; font-size: 9pt; }
+  .flow th { text-align:left; font-size: 8pt; text-transform: uppercase; letter-spacing:.12em; color: var(--muted); padding: 0 6pt 6pt; border-bottom: 1px solid #e4e3dc; }
+  .flow td { padding: 5pt 6pt; vertical-align: top; border-bottom: 1px dashed #e9e8e1; }
+  .flow tr:last-child td { border-bottom: 0; }
+  .flow code { font-family: "SF Mono", Menlo, monospace; font-size: 8.4pt; background:#f1f0ea; padding: 1pt 4pt; border-radius: 3pt; }
+  .flow .arrow { color: var(--teal); font-weight: 700; font-size: 13pt; text-align:center; }
+  .flow .rule { color: var(--indigo); font-weight: 600; }
+  .flow .note { color: var(--muted); font-size: 8.6pt; }
+  .two { display:grid; grid-template-columns: 1fr 1fr; gap: .26in; margin-top: .2in; }
+  .menu { background: #1c1f3a; color:#e8e9f2; border-radius: 10pt; padding: 8pt 0; font-size: 8.4pt; font-family: -apple-system, "SF Pro Text", Helvetica, sans-serif; box-shadow: 0 8pt 24pt rgba(0,0,0,.25); }
+  .menu .bar { background:#0f1124; margin: -8pt 0 6pt; padding: 5pt 12pt; border-radius: 10pt 10pt 0 0; font-size: 9pt; display:flex; justify-content:flex-end; gap: 10pt; color:#fff; }
+  .menu .bar b { background:#2f3470; padding: 1pt 7pt; border-radius: 4pt; }
+  .menu .row { padding: 1.7pt 14pt; white-space: nowrap; }
+  .menu .dim { color:#9fa3c2; }
+  .menu .sep { border-top: 1px solid #343860; margin: 3pt 10pt; }
+  .menu .ind { padding-left: 26pt; color:#9fa3c2; }
+  .menu .chk::before { content:"✓ "; color: var(--mint); }
+  .bullets { font-size: 9pt; line-height: 1.45; margin: 0; padding-left: 0; list-style: none; }
+  .bullets li { margin-bottom: 5pt; padding-left: 16pt; position: relative; }
+  .bullets li::before { content:"●"; color: var(--teal); position:absolute; left:0; top:0; font-size: 8pt; line-height: 1.9; }
+  .bullets b { color: var(--indigo); }
+  h3.sec { font-size: 11.5pt; color: var(--indigo); margin-bottom: 6pt; }
+  .install { margin-top: .16in; background: var(--ink); color:#fff; border-radius: 10pt; padding: .14in .22in; display:grid; grid-template-columns: 1fr 1.2fr; gap:.25in; align-items:center; }
+  .install h3 { font-size: 11.5pt; color: var(--mint); margin-bottom: 6pt; }
+  .install p { font-size: 9pt; line-height:1.45; margin:0; opacity:.9; }
+  .install pre { margin:0; font-family: "SF Mono", Menlo, monospace; font-size: 8.2pt; line-height: 1.5; background:#0f1124; padding: 8pt 10pt; border-radius: 8pt; color:#dfe2ff; }
+  .foot { margin-top:auto; padding: .14in 0 .34in; display:flex; justify-content:space-between; align-items:flex-end; font-size: 8.6pt; color: var(--muted); }
+  .foot .tag { font-size: 11pt; color: var(--indigo); font-weight: 700; }
+  .foot .tag span { color: var(--accent); }
+</style></head>
+<body>
+
+<section class="page">
+  <div class="hero">
+    <div class="price"><div class="amt"><sup>$</sup>19</div><small>one time</small></div>
+    <div class="title">
+      <div class="kicker">For Macs that keep filling up</div>
+      <h1>Overflow</h1>
+      <p>Your Mac's spare room. Cold data moves to a stick, on a schedule, by itself.</p>
+    </div>
+  </div>
+  <div class="body">
+    <p class="lede">Every AI coding session, every generated image, every one-off project copy stays on your laptop forever, until the disk is full and you're deleting things at 2 a.m. <b>Overflow</b> plugs a cheap, stays-in-the-port USB-C stick into that problem: once a week it moves whatever has gone cold to the stick, leaves a pointer behind so nothing breaks, and shows you the result in the menu bar. Nothing to remember. Nothing to babysit.</p>
+    <div class="cards">
+      <div class="card"><div class="ico">⟳</div><h3>Runs itself</h3><p>A weekly job finds files and folders that nobody has touched in weeks and moves them off the internal disk. If the stick isn't plugged in, it quietly skips.</p></div>
+      <div class="card"><div class="ico">↩</div><h3>Nothing breaks</h3><p>Moved folders leave a symlink at the old path. Your tools keep working. Every file is copied and byte-verified before the original is removed.</p></div>
+      <div class="card"><div class="ico">◉</div><h3>Lives in the menu bar</h3><p>Free space next to the clock, turning orange and red as it gets low. One click to preview or run an archive, open the log, or eject the stick.</p></div>
+    </div>
+  </div>
+  <div class="strip">
+    <div class="big">Average first run: <span>20 GB</span> off the laptop in under 15 minutes.</div>
+    <div class="small">Native Swift app, 4 files, no dependencies.<br>Works with any USB-C stick or SSD. macOS 13 or later.</div>
+  </div>
+</section>
+
+<section class="page">
+  <div class="p2">
+    <h2>How it works</h2>
+    <p class="sub">Three sources on the laptop, one destination on the stick. Same path on both sides, so putting anything back is a plain copy.</p>
+    <div class="flow">
+      <table>
+        <tr><th style="width:37%">On the laptop</th><th style="width:5%"></th><th style="width:31%">On the stick <code>/Volumes/Overflow</code></th><th style="width:27%">Rule</th></tr>
+        <tr><td><b>AI session transcripts</b><br><code>~/.codex/sessions/…/*.jsonl</code><br><span class="note">Multi-GB chat logs you'll rarely reopen</span></td><td class="arrow">→</td><td><code>.codex/sessions/…</code><br><span class="note">moved file by file</span></td><td><span class="rule">older than 30 days</span></td></tr>
+        <tr><td><b>Generated images</b><br><code>~/.codex/generated_images/…</code><br><span class="note">Every PNG a model ever drew for you</span></td><td class="arrow">→</td><td><code>.codex/generated_images/…</code><br><span class="note">moved file by file</span></td><td><span class="rule">older than 30 days</span></td></tr>
+        <tr><td><b>Project task copies</b><br><code>~/Projects/Advanced Content/&lt;task&gt;/</code><br><span class="note">Per-task working copies, each a full export with its own media and build output. Live git repos never move.</span></td><td class="arrow">→</td><td><code>Projects/Advanced Content/&lt;task&gt;/</code><br><span class="note">moved whole, <b>symlink left behind</b></span></td><td><span class="rule">idle for 14 days</span><br><span class="note">Idle = no file under 1 MB modified. Big media is ignored, so clones and copies can't fool it.</span></td></tr>
+      </table>
+    </div>
+
+    <div class="two">
+      <div>
+        <h3 class="sec">The menu, as you'll see it</h3>
+        <div class="menu">
+          <div class="bar"><b>⛁ 25.8 GB</b> ◔ ⌃ ⌁ 🔋 Mon 9:41 AM</div>
+          <div class="row dim">Internal disk: 25.8 GB free of 245 GB  (89% used)</div>
+          <div class="row dim">Overflow stick: 20.4 GB used, 473 GB free</div>
+          <div class="row dim">Advanced Content: 150 folders local, 90 on stick</div>
+          <div class="sep"></div>
+          <div class="row dim">Last archive: 2026-10-20 09:14</div>
+          <div class="row ind">87 items moved, freed 5174 MB</div>
+          <div class="row dim">Weekly job: scheduled, Sundays 3:00 AM</div>
+          <div class="sep"></div>
+          <div class="row">Preview archive (dry run)</div>
+          <div class="row">Archive now</div>
+          <div class="row">Archive now, aggressive (7 days)</div>
+          <div class="sep"></div>
+          <div class="row">Open archive log</div>
+          <div class="row">Show Overflow in Finder</div>
+          <div class="row">Eject Overflow</div>
+          <div class="sep"></div>
+          <div class="row chk">Start at login</div>
+          <div class="row">Quit Overflow Monitor</div>
+        </div>
+      </div>
+      <div>
+        <h3 class="sec">Built to not lose your data</h3>
+        <ul class="bullets">
+          <li><b>Marker file.</b> The stick carries an empty <code>.overflow-stick</code> file. No marker, no move. It can't write into an empty mount point or the wrong drive.</li>
+          <li><b>Verify, then delete.</b> Files are copied, compared byte for byte, then removed. Folders are checksummed with rsync. A failed check keeps the original.</li>
+          <li><b>Databases and keys stay home.</b> SQLite stores, settings, credentials and anything you list in <code>FOLDER_KEEP</code> are never candidates.</li>
+          <li><b>Dry run by default.</b> The script shows what it would do unless you pass <code>--run</code>. Everything is logged on the stick.</li>
+          <li><b>Plain files, plain paths.</b> No database, no proprietary format. Unplug the stick and read it on any Mac.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="install">
+      <div><h3>Install in sixty seconds</h3><p>Format any stick as APFS and name it <b>Overflow</b>. Clone the repo, run the installer, pick your sources in one config file. The menu bar app, the weekly job and the archive script all land in the right places.</p></div>
+      <pre>git clone https://github.com/&lt;you&gt;/overflow
+cd overflow && ./install.sh
+# then edit, if you like:
+#   ~/Library/Application Support/Overflow/config.zsh</pre>
+    </div>
+  <div class="foot">
+    <div><span class="tag">Overflow <span>$19</span></span> one-time, all future updates included<br>Friends &amp; family edition: free. Bring your own stick.</div>
+    <div>Made on a 228 GB MacBook Air that was down to 262 MB free.<br>Not affiliated with Apple, OpenAI or SanDisk.</div>
+  </div>
+  </div>
+</section>
+</body></html>
