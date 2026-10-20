@@ -69,7 +69,7 @@ diskutil list external                      # find the stick, e.g. disk4
 diskutil eraseDisk APFS Overflow GPT disk4  # DESTROYS everything on that disk
 
 # 2. Install
-git clone <this repo> overflow && cd overflow
+git clone https://github.com/danmarai/overflow.git && cd overflow
 ./install.sh
 
 # 3. Pick your sources
